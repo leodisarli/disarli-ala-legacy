@@ -1,0 +1,7 @@
+<?php
+
+namespace App\Queries\{{entityCaps}};
+
+class {{entityCaps}}DeleteQueries extends {{entityCaps}}CommonQueries
+{
+}

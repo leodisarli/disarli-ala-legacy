@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Helpers\UuidHelper;
+use App\Queries\{{entityCaps}}\{{entityCaps}}AddQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}AddRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}AddQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}AddQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * add {{entity}}
+     * @param array $data
+     * @return string $id
+     */
+    public function add(
+        array $data
+    ) {
+        $uuid = new UuidHelper();
+        $id = $uuid::uuid4();
+
+        $now = date('Y-m-d H:i:s');
+        $data['id'] = $id;
+        $data['created'] = $now;
+        $data['modified'] = $now;
+
+        $this->db
+            ->table('{{entityOriginal}}')
+            ->insert($data);
+        
+        return $id;
+    }
+}

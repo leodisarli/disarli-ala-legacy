@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use \Mockery;
+use App\Queries\{{entityCaps}}\{{entityCaps}}AddQueries;
+use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}AddRepositoryTest extends TestCase
+{
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}AddRepository::__construct
+     */
+    public function testCanBeInstantiated()
+    {
+        $dbSpy = Mockery::spy(DatabaseManager::class);
+        $queriesSpy = Mockery::spy({{entityCaps}}AddQueries::class);
+        $repository = new {{entityCaps}}AddRepository($dbSpy, $queriesSpy);
+        $this->assertInstanceOf({{entityCaps}}AddRepository::class, $repository);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}AddRepository::add
+     */
+    public function testAdd()
+    {
+        $data = [
+            'field' => 1,
+        ];
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('table')
+            ->once()
+            ->with('{{entityOriginal}}')
+            ->andReturnSelf()
+            ->shouldReceive('insert')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn(true);
+
+        $queriesSpy = Mockery::spy({{entityCaps}}AddQueries::class);
+
+        $repository = new {{entityCaps}}AddRepository($dbMock, $queriesSpy);
+        $response = $repository->add(
+            $data
+        );
+
+        $this->assertInternalType('string', $response);
+    }
+    
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

@@ -1,0 +1,63 @@
+<?php
+
+$router->group(
+    [
+        'prefix' => '{{entityOriginal}}',
+        'middleware' => 'auth',
+    ],
+    function () use ($router) {
+        $router->post(
+            '/add',
+            [
+                'as' => '{{entityOriginal}}.add',
+                'uses' => '{{entityCaps}}AddController@process',
+                'validate' => 'App\Validators\Concrete\{{entityCaps}}\{{entityCaps}}AddValidator',
+            ]
+        );
+        $router->get(
+            '/dead_detail/{id}',
+            [
+                'as' => '{{entityOriginal}}.dead_detail',
+                'uses' => '{{entityCaps}}DeadDetailController@process',
+            ]
+        );
+        $router->get(
+            '/dead_list',
+            [
+                'as' => '{{entityOriginal}}.dead_list',
+                'uses' => '{{entityCaps}}DeadListController@process',
+                'validate' => 'App\Validators\Concrete\{{entityCaps}}\{{entityCaps}}ListValidator',
+            ]
+        );
+        $router->delete(
+            '/delete/{id}',
+            [
+                'as' => '{{entityOriginal}}.delete',
+                'uses' => '{{entityCaps}}DeleteController@process',
+            ]
+        );
+        $router->get(
+            '/detail/{id}',
+            [
+                'as' => '{{entityOriginal}}.detail',
+                'uses' => '{{entityCaps}}DetailController@process',
+            ]
+        );
+        $router->post(
+            '/edit/{id}',
+            [
+                'as' => '{{entityOriginal}}.edit',
+                'uses' => '{{entityCaps}}EditController@process',
+                'validate' => 'App\Validators\Concrete\{{entityCaps}}\{{entityCaps}}EditValidator',
+            ]
+        );
+        $router->get(
+            '/list',
+            [
+                'as' => '{{entityOriginal}}.list',
+                'uses' => '{{entityCaps}}ListController@process',
+                'validate' => 'App\Validators\Concrete\{{entityCaps}}\{{entityCaps}}ListValidator',
+            ]
+        );
+    }
+);

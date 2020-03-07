@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Queries\{{entityCaps}}\{{entityCaps}}DetailQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}DetailRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}DetailQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}DetailQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Queries\{{entityCaps}};
+
+use App\Queries\Queries;
+
+class {{entityCaps}}CommonQueries extends Queries
+{
+    public $queries;
+
+    private $getById =
+        "SELECT
+            [id],
+            [created],
+            [modified]
+        FROM [{{entityOriginal}}]
+        WHERE
+            [id] = :id
+            AND [deleted] IS NULL";
+
+    public function __construct()
+    {
+        $this->queries['getById'] = $this->getById;
+    }
+}

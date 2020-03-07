@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use \Mockery;
+use App\Queries\{{entityCaps}}\{{entityCaps}}DeadListQueries;
+use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DeadListRepositoryTest extends TestCase
+{
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}DeadListRepository::__construct
+     */
+    public function testCanBeInstantiated()
+    {
+        $dbSpy = Mockery::spy(DatabaseManager::class);
+        $queriesSpy = Mockery::spy({{entityCaps}}DeadListQueries::class);
+        $repository = new {{entityCaps}}DeadListRepository($dbSpy, $queriesSpy);
+        $this->assertInstanceOf({{entityCaps}}DeadListRepository::class, $repository);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}DeadListRepository::getDeadList
+     */
+    public function testgetDeadList()
+    {
+        $page = 1;
+        $data = [
+            (object) [
+                'id' => '444494dd-7612-4c93-bd1f-56f913d8ab6c',
+                'field' => 2,
+            ],
+            (object) [
+                'id' => 'f66fedbb-05e3-4640-afc4-68391903fc39',
+                'field' => 4,
+            ],
+        ];
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('select')
+            ->twice()
+            ->withAnyArgs()
+            ->andReturn($data);
+
+        $queriesMock = Mockery::mock({{entityCaps}}DeadListQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}DeadListRepository($dbMock, $queriesMock);
+        $list = $repository->getDeadList(
+            $page
+        );
+
+        $this->assertInternalType('array', $list);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}DeadListRepository::getDeadList
+     */
+    public function testgetDeadListEmpty()
+    {
+        $page = 1;
+        $data = [];
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('select')
+            ->twice()
+            ->withAnyArgs()
+            ->andReturn($data);
+
+        $queriesMock = Mockery::mock({{entityCaps}}DeadListQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}DeadListRepository($dbMock, $queriesMock);
+        $list = $repository->getDeadList(
+            $page
+        );
+
+        $this->assertEmpty($list['data']);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

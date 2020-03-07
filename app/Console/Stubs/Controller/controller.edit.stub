@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Controllers\{{entityCaps}};
+
+use App\Businesses\{{entityCaps}}\{{entityCaps}}EditBusiness;
+use App\Exceptions\Custom\NothingToSaveException;
+use App\Helpers\ResponseJsonHelper;
+use App\Http\Controllers\Controller;
+use App\Validators\Validator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{entityCaps}}EditController extends Controller
+{
+    private $validator;
+    private $business;
+
+     /**
+     * Constructor
+     * @param Validator $validator
+     * @param {{entityCaps}}EditBusiness ${{entity}}
+     */
+    public function __construct(
+        Validator $validator,
+        {{entityCaps}}EditBusiness $business
+    ) {
+        $this->validator = $validator;
+        $this->business = $business;
+    }
+
+    /**
+     * Process
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(Request $request, string $id)
+    {
+        $fields = $this->validator->validate($request->all(), $request->validate);
+        $data = $request->only(
+            $fields
+        );
+        if (empty($data)) {
+            throw new NothingToSaveException();
+        }
+
+        $response = $this->business->process($id, $data);
+
+        return ResponseJsonHelper::response(
+            [
+                $response,
+            ]
+        );
+    }
+}

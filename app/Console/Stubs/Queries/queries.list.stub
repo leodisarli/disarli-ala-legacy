@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Queries\{{entityCaps}};
+
+class {{entityCaps}}ListQueries extends {{entityCaps}}CommonQueries
+{
+    private $getList =
+        "SELECT
+            [id],
+            [created],
+            [modified]
+        FROM [{{entityOriginal}}]
+        WHERE [deleted] IS NULL
+        ORDER BY [id] DESC";
+        
+    public function __construct()
+    {
+        parent::__construct();
+        $this->queries['getList'] = $this->getList;
+    }
+}

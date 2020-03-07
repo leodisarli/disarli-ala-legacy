@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use \Mockery;
+use App\Queries\{{entityCaps}}\{{entityCaps}}ListQueries;
+use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}ListRepositoryTest extends TestCase
+{
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}ListRepository::__construct
+     */
+    public function testCanBeInstantiated()
+    {
+        $dbSpy = Mockery::spy(DatabaseManager::class);
+        $queriesSpy = Mockery::spy({{entityCaps}}ListQueries::class);
+        $repository = new {{entityCaps}}ListRepository($dbSpy, $queriesSpy);
+        $this->assertInstanceOf({{entityCaps}}ListRepository::class, $repository);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}ListRepository::getList
+     */
+    public function testgetList()
+    {
+        $page = 1;
+        $data = [
+            (object) [
+                'id' => '444494dd-7612-4c93-bd1f-56f913d8ab6c',
+                'field' => 2,
+            ],
+            (object) [
+                'id' => 'f66fedbb-05e3-4640-afc4-68391903fc39',
+                'field' => 4,
+            ],
+        ];
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('select')
+            ->twice()
+            ->withAnyArgs()
+            ->andReturn($data);
+
+        $queriesMock = Mockery::mock({{entityCaps}}ListQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}ListRepository($dbMock, $queriesMock);
+        $list = $repository->getList(
+            $page
+        );
+
+        $this->assertInternalType('array', $list);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}ListRepository::getList
+     */
+    public function testgetListEmpty()
+    {
+        $page = 1;
+        $data = [];
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('select')
+            ->twice()
+            ->withAnyArgs()
+            ->andReturn($data);
+
+        $queriesMock = Mockery::mock({{entityCaps}}ListQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}ListRepository($dbMock, $queriesMock);
+        $list = $repository->getList(
+            $page
+        );
+
+        $this->assertEmpty($list['data']);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

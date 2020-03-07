@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers\{{entityCaps}};
+
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DetailBusiness;
+use App\Helpers\ResponseJsonHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{entityCaps}}DetailController extends Controller
+{
+    private $business;
+
+     /**
+     * Constructor
+     * @param {{entityCaps}}DetailBusiness ${{entity}}
+     */
+    public function __construct(
+        {{entityCaps}}DetailBusiness $business
+    ) {
+        $this->business = $business;
+    }
+
+    /**
+     * Process
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(string $id)
+    {
+        $response = $this->business->process($id);
+
+        return ResponseJsonHelper::response(
+            [
+                $response,
+            ]
+        );
+    }
+}

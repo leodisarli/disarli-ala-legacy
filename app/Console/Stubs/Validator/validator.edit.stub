@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Validators\Concrete\{{entityCaps}};
+
+use App\Validators\Base\AbstractRequestValidator;
+
+class {{entityCaps}}EditValidator extends AbstractRequestValidator
+{
+    public function getRules()
+    {
+        return [
+            'field' => 'int | required',
+        ];
+    }
+
+    public function getMessages()
+    {
+        return [];
+    }
+}

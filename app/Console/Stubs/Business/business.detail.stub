@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use App\Exceptions\Custom\DataNotFoundException;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DetailRepository;
+
+class {{entityCaps}}DetailBusiness
+{
+    private ${{entity}}DetailRepository;
+
+    /**
+     * Constructor
+     * @param {{entityCaps}}DetailRepository ${{entity}}DetailRepository
+     */
+    public function __construct(
+        {{entityCaps}}DetailRepository ${{entity}}DetailRepository
+    ) {
+        $this->{{entity}}DetailRepository = ${{entity}}DetailRepository;
+    }
+
+    /**
+     * Process {{entity}} business
+     * @param string $id
+     * @return stdclass
+     */
+    public function process(
+        string $id
+    ) {
+        $entity = $this->{{entity}}DetailRepository->getById($id);
+        if (empty($entity)) {
+            throw new DataNotFoundException();
+        }
+        return $entity;
+    }
+}

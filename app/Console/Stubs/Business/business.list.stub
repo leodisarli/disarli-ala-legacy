@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use App\Repositories\{{entityCaps}}\{{entityCaps}}ListRepository;
+
+class {{entityCaps}}ListBusiness
+{
+    private ${{entity}}ListRepository;
+
+    /**
+     * Constructor
+     * @param {{entityCaps}}ListRepository ${{entity}}ListRepository
+     */
+    public function __construct(
+        {{entityCaps}}ListRepository ${{entity}}ListRepository
+    ) {
+        $this->{{entity}}ListRepository = ${{entity}}ListRepository;
+    }
+
+    /**
+     * Process {{entity}} business
+     * @param int $page
+     * @return array
+     */
+    public function process(
+        int $page
+    ) : array {
+        $list = $this->{{entity}}ListRepository->getList(
+            $page
+        );
+
+        $result = [
+            'data' => [],
+            'paginator' => $list['paginator'],
+        ];
+
+        if (empty($list['data'])) {
+            return $result;
+        }
+
+        $result['data'] = $list['data'];
+        return $result;
+    }
+}

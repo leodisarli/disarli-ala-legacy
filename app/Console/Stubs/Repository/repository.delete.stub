@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Queries\{{entityCaps}}\{{entityCaps}}DeleteQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}DeleteRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}DeleteQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}DeleteQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * delete {{entity}}
+     * @param string $id
+     * @return bool
+     */
+    public function delete(
+        string $id
+    ) {
+        $now = date('Y-m-d H:i:s');
+        $data = [
+            'modified' => $now,
+            'deleted' => $now,
+        ];
+        $this->db->table('{{entityOriginal}}')
+            ->where(['id'=> $id])
+            ->update($data);
+        
+        return true;
+    }
+}

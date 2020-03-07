@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DeadListRepository;
+
+class {{entityCaps}}DeadListBusiness
+{
+    private ${{entity}}DeadListRepository;
+
+    /**
+     * Constructor
+     * @param {{entityCaps}}DeadListRepository ${{entity}}DeadListRepository
+     */
+    public function __construct(
+        {{entityCaps}}DeadListRepository ${{entity}}DeadListRepository
+    ) {
+        $this->{{entity}}DeadListRepository = ${{entity}}DeadListRepository;
+    }
+
+    /**
+     * Process {{entity}} business
+     * @param int $page
+     * @return array
+     */
+    public function process(
+        int $page
+    ) : array {
+        $list = $this->{{entity}}DeadListRepository->getDeadList(
+            $page
+        );
+
+        $result = [
+            'data' => [],
+            'paginator' => $list['paginator'],
+        ];
+
+        if (empty($list['data'])) {
+            return $result;
+        }
+
+        $result['data'] = $list['data'];
+        return $result;
+    }
+}

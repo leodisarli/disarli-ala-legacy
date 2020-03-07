@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use \Mockery;
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DetailBusiness;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DetailRepository;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DetailBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DetailBusiness::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        ${{entity}}RepositorySpy = Mockery::spy({{entityCaps}}DetailRepository::class);
+        $business = new {{entityCaps}}DetailBusiness(${{entity}}RepositorySpy);
+        $this->assertInstanceOf({{entityCaps}}DetailBusiness::class, $business);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DetailBusiness::process
+     */
+    public function testProcess()
+    {
+        $field = 4;
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+        $return = (object) [
+            'id' => $id,
+            'field' => $field,
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DetailRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->once()
+            ->with($id)
+            ->andReturn($return);
+
+        $business = new {{entityCaps}}DetailBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DetailBusiness::class, $business);
+
+        $process = $business->process(
+            $id
+        );
+
+        $this->assertEquals($process, $return);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DetailBusiness::process
+     * @expectedException App\Exceptions\Custom\DataNotFoundException
+     */
+    public function testProcessNotFound()
+    {
+        $field = 4;
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DetailRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->once()
+            ->with($id)
+            ->andReturn(null);
+
+        $business = new {{entityCaps}}DetailBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DetailBusiness::class, $business);
+
+        $business->process(
+            $id
+        );
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

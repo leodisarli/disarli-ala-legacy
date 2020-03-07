@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use \Mockery;
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DeadDetailBusiness;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DeadDetailRepository;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DeadDetailBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadDetailBusiness::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        ${{entity}}RepositorySpy = Mockery::spy({{entityCaps}}DeadDetailRepository::class);
+        $business = new {{entityCaps}}DeadDetailBusiness(${{entity}}RepositorySpy);
+        $this->assertInstanceOf({{entityCaps}}DeadDetailBusiness::class, $business);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadDetailBusiness::process
+     */
+    public function testProcess()
+    {
+        $field = 4;
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+        $return = (object) [
+            'id' => $id,
+            'field' => $field,
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeadDetailRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getDeadById')
+            ->once()
+            ->with($id)
+            ->andReturn($return);
+
+        $business = new {{entityCaps}}DeadDetailBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeadDetailBusiness::class, $business);
+
+        $process = $business->process(
+            $id
+        );
+
+        $this->assertEquals($process, $return);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadDetailBusiness::process
+     * @expectedException App\Exceptions\Custom\DataNotFoundException
+     */
+    public function testProcessNotFound()
+    {
+        $field = 4;
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeadDetailRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getDeadById')
+            ->once()
+            ->with($id)
+            ->andReturn(null);
+
+        $business = new {{entityCaps}}DeadDetailBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeadDetailBusiness::class, $business);
+
+        $business->process(
+            $id
+        );
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

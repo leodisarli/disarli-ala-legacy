@@ -1,0 +1,7 @@
+.env
+.env.prod
+.env.dev
+.env.old
+/coverage/*
+/storage/*
+/vendor

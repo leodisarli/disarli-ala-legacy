@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Controllers\{{entityCaps}};
+
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DeleteBusiness;
+use App\Helpers\ResponseJsonHelper;
+use App\Http\Controllers\Controller;
+use App\Validators\Validator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{entityCaps}}DeleteController extends Controller
+{
+    private $validator;
+    private $business;
+
+     /**
+     * Constructor
+     * @param Validator $validator
+     * @param {{entityCaps}}DeleteBusiness ${{entity}}
+     */
+    public function __construct(
+        Validator $validator,
+        {{entityCaps}}DeleteBusiness $business
+    ) {
+        $this->validator = $validator;
+        $this->business = $business;
+    }
+
+    /**
+     * Process
+     * @return JsonObject
+     */
+    public function process(string $id)
+    {
+        $this->business->process($id);
+        return ResponseJsonHelper::responseDelete();
+    }
+}

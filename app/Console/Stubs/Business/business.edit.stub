@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use App\Exceptions\Custom\DataNotFoundException;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}EditRepository;
+
+class {{entityCaps}}EditBusiness
+{
+    private ${{entity}}EditRepository;
+
+    /**
+     * Constructor
+     * @param {{entityCaps}}EditRepository ${{entity}}EditRepository
+     */
+    public function __construct(
+        {{entityCaps}}EditRepository ${{entity}}EditRepository
+    ) {
+        $this->{{entity}}EditRepository = ${{entity}}EditRepository;
+    }
+
+    /**
+     * Process {{entity}} business
+     * @param string $id
+     * @param array $data
+     * @return stdclass
+     */
+    public function process(
+        string $id,
+        array $data
+    ) {
+        $entity = $this->{{entity}}EditRepository->getById(
+            $id
+        );
+        if (empty($entity)) {
+            throw new DataNotFoundException();
+        }
+        $this->{{entity}}EditRepository->edit(
+            $id,
+            $data
+        );
+
+        $entity = $this->{{entity}}EditRepository->getById($id);
+        return $entity;
+    }
+}

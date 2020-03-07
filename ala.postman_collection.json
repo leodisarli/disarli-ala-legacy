@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "7f5f45f7-be38-4256-9636-c8d2a576ba2b",
+		"name": "Automatic Lumen API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sample",
+			"description": null,
+			"item": [
+				{
+					"name": "Sample add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/detail/{{put_id_here}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"detail",
+								"{{put_id_here}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample edit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "2",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/edit/{{put_id_here}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"edit",
+								"{{put_id_here}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8087/sample/delete/{{put_id_here}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"delete",
+								"{{put_id_here}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample dead detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/dead_detail/{{put_id_here}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"dead_detail",
+								"{{put_id_here}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample dead list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "2nE7GCmLFpRBWxVprXwBDTAjQBR5FrV2f"
+							},
+							{
+								"key": "secret",
+								"value": "p5pDKSP45Ht9uuHhR7YBArNS45nrj8a2hKDT3cAJ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "field",
+									"value": "1",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8087/sample/dead_list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"sample",
+								"dead_list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

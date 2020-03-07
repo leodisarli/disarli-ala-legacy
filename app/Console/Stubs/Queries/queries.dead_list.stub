@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Queries\{{entityCaps}};
+
+class {{entityCaps}}DeadListQueries extends {{entityCaps}}CommonQueries
+{
+    private $getDeadList =
+        "SELECT
+            [id],
+            [created],
+            [modified],
+            [deleted]
+        FROM [{{entityOriginal}}]
+        WHERE [deleted] IS NOT NULL
+        ORDER BY [id] DESC";
+        
+    public function __construct()
+    {
+        parent::__construct();
+        $this->queries['getDeadList'] = $this->getDeadList;
+    }
+}

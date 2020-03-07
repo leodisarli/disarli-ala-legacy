@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers\{{entityCaps}};
+
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DeadDetailBusiness;
+use App\Helpers\ResponseJsonHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{entityCaps}}DeadDetailController extends Controller
+{
+    private $business;
+
+     /**
+     * Constructor
+     * @param {{entityCaps}}DeadDetailBusiness ${{entity}}
+     */
+    public function __construct(
+        {{entityCaps}}DeadDetailBusiness $business
+    ) {
+        $this->business = $business;
+    }
+
+    /**
+     * Process
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(string $id)
+    {
+        $response = $this->business->process($id);
+
+        return ResponseJsonHelper::response(
+            [
+                $response,
+            ]
+        );
+    }
+}

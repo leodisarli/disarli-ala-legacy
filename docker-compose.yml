@@ -1,0 +1,27 @@
+version: '3'
+services:
+  auto-lumen-api-nginx:
+    image: leosarli/develop:ala_nginx
+    container_name: auto-lumen-api-nginx
+    ports:
+     - 8087:80
+    volumes:
+     - .:/var/www/html
+
+  auto-lumen-api-php:
+    image: leosarli/develop:ala_php
+    container_name: auto-lumen-api-php
+    volumes:
+     - .:/var/www/html
+
+  auto-lumen-api-mssql-db:
+    image: microsoft/mssql-server-linux
+    container_name: auto-lumen-api-db
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Docker(!)Pass123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./storage/.db:/var/opt/mssql/
+      - /var/opt/mssql/data

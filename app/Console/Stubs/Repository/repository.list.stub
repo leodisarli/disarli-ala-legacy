@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Helpers\PaginatorHelper;
+use App\Queries\{{entityCaps}}\{{entityCaps}}ListQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}ListRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}ListQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}ListQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * get {{entity}} list
+     * @param int $page
+     * @return array
+     */
+    public function getList(
+        int $page
+    ) : array {
+        $select = $this->queries->getQuery(
+            'getList'
+        );
+
+        $paginator = new PaginatorHelper();
+        $countSelect = $paginator->getCountSelect($select, '{{entityOriginal}}');
+        $total = $this->db->select(
+            $countSelect
+        );
+        $totalRows = $total[0]->total ?? 0;
+        $paginatorArray = $paginator->makePaginator(
+            $page,
+            $totalRows
+        );
+
+        $query = $paginator->paginateSelect(
+            $select,
+            $page
+        );
+
+        $result = $this->db->select(
+            $query
+        );
+
+        if (empty($result)) {
+            $result = null;
+        }
+
+        return [
+            'data' => $result,
+            'paginator' => $paginatorArray,
+        ];
+    }
+}

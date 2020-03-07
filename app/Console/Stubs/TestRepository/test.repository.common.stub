@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use \Mockery;
+use App\Queries\{{entityCaps}}\{{entityCaps}}CommonQueries;
+use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}CommonRepositoryTest extends TestCase
+{
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}CommonRepository::__construct
+     */
+    public function testCanBeInstantiated()
+    {
+        $dbSpy = Mockery::spy(DatabaseManager::class);
+        $queriesSpy = Mockery::spy({{entityCaps}}CommonQueries::class);
+        $repository = new {{entityCaps}}CommonRepository($dbSpy, $queriesSpy);
+        $this->assertInstanceOf({{entityCaps}}CommonRepository::class, $repository);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}CommonRepository::getById
+     */
+    public function testGetById()
+    {
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('selectOne')
+            ->once()
+            ->withAnyArgs()
+            ->andReturnUsing(function () {
+                $obj = new \stdClass();
+                $arr = [
+                    $obj,
+                ];
+                return $arr;
+            });
+
+        $queriesMock = Mockery::mock({{entityCaps}}CommonQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}CommonRepository($dbMock, $queriesMock);
+        $response = $repository->getById(
+            $id
+        );
+
+        $this->assertInternalType('array', $response);
+    }
+
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}CommonRepository::getById
+     */
+    public function testGetByIdEmpty()
+    {
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        $dbMock = Mockery::mock(DatabaseManager::class);
+        $dbMock->shouldReceive('selectOne')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn(null);
+
+        $queriesMock = Mockery::mock({{entityCaps}}CommonQueries::class)
+            ->shouldReceive('getQuery')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn('')
+            ->getMock();
+
+        $repository = new {{entityCaps}}CommonRepository($dbMock, $queriesMock);
+        $response = $repository->getById(
+            $id
+        );
+
+        $this->assertEquals(null, $response);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Controllers\{{entityCaps}};
+
+use App\Businesses\{{entityCaps}}\{{entityCaps}}ListBusiness;
+use App\Helpers\ResponseJsonHelper;
+use App\Http\Controllers\Controller;
+use App\Validators\Validator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{entityCaps}}ListController extends Controller
+{
+    private $validator;
+    private $business;
+
+     /**
+     * Constructor
+     * @param {{entityCaps}}ListBusiness ${{entity}}
+     */
+    public function __construct(
+        Validator $validator,
+        {{entityCaps}}ListBusiness $business
+    ) {
+        $this->validator = $validator;
+        $this->business = $business;
+    }
+
+    /**
+     * Process
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(Request $request)
+    {
+        $fields = $this->validator->validate($request->all(), $request->validate);
+        $data = $request->only(
+            $fields
+        );
+
+        $page = $data['page'] ?? 1;
+
+        $response = $this->business->process($page);
+
+        return ResponseJsonHelper::response(
+            [
+                $response,
+            ]
+        );
+    }
+}

@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use \Mockery;
+use App\Businesses\{{entityCaps}}\{{entityCaps}}EditBusiness;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}EditRepository;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}EditBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}EditBusiness::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        ${{entity}}RepositorySpy = Mockery::spy({{entityCaps}}EditRepository::class);
+        $business = new {{entityCaps}}EditBusiness(${{entity}}RepositorySpy);
+        $this->assertInstanceOf({{entityCaps}}EditBusiness::class, $business);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}EditBusiness::process
+     */
+    public function testProcess()
+    {
+        $data = [
+            'field' => 5,
+        ];
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+        $return = (object) [
+            'id' => $id,
+            'field' => 5,
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}EditRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('edit')
+            ->once()
+            ->withArgs([
+                $id,
+                $data
+            ])
+            ->andReturn($id);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->twice()
+            ->with($id)
+            ->andReturn($return);
+
+        $business = new {{entityCaps}}EditBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}EditBusiness::class, $business);
+
+        $process = $business->process(
+            $id,
+            $data
+        );
+
+        $this->assertEquals($process, $return);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}EditBusiness::process
+     * @expectedException App\Exceptions\Custom\DataNotFoundException
+     */
+    public function testProcessNotFound()
+    {
+        $data = [
+            'field' => 5,
+        ];
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}EditRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->once()
+            ->with($id)
+            ->andReturn(null);
+
+        $business = new {{entityCaps}}EditBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}EditBusiness::class, $business);
+
+        $process = $business->process(
+            $id,
+            $data
+        );
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

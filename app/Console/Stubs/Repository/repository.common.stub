@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Queries\{{entityCaps}}\{{entityCaps}}CommonQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}CommonRepository
+{
+    private $db;
+    private $queries;
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}CommonQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}CommonQueries $queries
+    ) {
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * get {{entity}} by id
+     * @param string $id
+     * @return stdClass
+     */
+    public function getById(
+        string $id
+    ) {
+        $params = [
+            'id' => $id,
+        ];
+        $select = $this->queries->getQuery(
+            'getById'
+        );
+
+        $result = $this->db->selectOne(
+            $select,
+            $params
+        );
+        if (empty($result)) {
+            return null;
+        }
+        return $result;
+    }
+}

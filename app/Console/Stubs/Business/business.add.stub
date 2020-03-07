@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use App\Repositories\{{entityCaps}}\{{entityCaps}}AddRepository;
+
+class {{entityCaps}}AddBusiness
+{
+    private ${{entity}}AddRepository;
+
+    /**
+     * Constructor
+     * @param {{entityCaps}}AddRepository ${{entity}}AddRepository
+     */
+    public function __construct(
+        {{entityCaps}}AddRepository ${{entity}}AddRepository
+    ) {
+        $this->{{entity}}AddRepository = ${{entity}}AddRepository;
+    }
+
+    /**
+     * Process {{entity}} business
+     * @param array $data
+     * @return stdclass
+     */
+    public function process(
+        array $data
+    ) {
+        $id = $this->{{entity}}AddRepository->add($data);
+        $entity = $this->{{entity}}AddRepository->getById($id);
+        return $entity;
+    }
+}

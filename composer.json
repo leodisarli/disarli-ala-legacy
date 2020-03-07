@@ -1,0 +1,86 @@
+{
+    "name": "leodisarli/disarli-ala-legacy",
+    "description": "API Rest Full created in lumen that auto generate base code for simple crud (with tests)",
+    "keywords": ["api", "ret full", "lumen", "back", "generate code"],
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Leo Di Sarli",
+            "email": "leosarli@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "laravel/lumen-framework": "5.6.*",
+        "vlucas/phpdotenv": "~2.2",
+        "pda/pheanstalk": "^3.1",
+        "aws/aws-sdk-php": "^3.64",
+        "ramsey/uuid": "^3.8",
+        "moontoast/math": "^1.1",
+        "guzzlehttp/guzzle": "^6.3",
+        "squizlabs/php_codesniffer": "3.2",
+        "phpmd/phpmd": "^2.6"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/",
+            "database/"
+        ]
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "cp .env.dist .env"
+        ],
+        "post-install-cmd": [
+            "chmod -R 777 ./storage",
+            "bash contrib/setup.sh"
+        ],
+        "check" : [
+            "@lint",
+            "@cs",
+            "@mess",
+            "@test"
+        ],
+        "lint" : [
+            "find ./app -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./bootstrap -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./config -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./database -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./public -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./resources -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./routes -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0",
+            "find ./tests -name '*.php' -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0"
+        ],
+        "mess" : [
+            "vendor/bin/phpmd ./app text phpmd.xml",
+            "vendor/bin/phpmd ./bootstrap text phpmd.xml",
+            "vendor/bin/phpmd ./config text phpmd.xml",
+            "vendor/bin/phpmd ./database text phpmd.xml",
+            "vendor/bin/phpmd ./public text phpmd.xml",
+            "vendor/bin/phpmd ./resources text phpmd.xml",
+            "vendor/bin/phpmd ./routes text phpmd.xml"
+        ],
+        "cs" : "vendor/bin/phpcs",
+        "db-init" : "docker exec auto-lumen-api-db /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"Docker(!)Pass123\" -d master -q \"CREATE DATABASE mydb;\"",
+        "env-init" : "cp .env.dist .env",
+        "migrate" : "docker exec auto-lumen-api-php php artisan migrate",
+        "test" : "vendor/bin/phpunit",
+        "test-xml" : "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage/coverage.xml --log-junit junit.xml"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true
+    }
+}

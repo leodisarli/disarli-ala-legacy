@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Queries\{{entityCaps}}\{{entityCaps}}DeadDetailQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}DeadDetailRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}DeadDetailQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}DeadDetailQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * get dead {{entity}} by id
+     * @param string $id
+     * @return stdClass
+     */
+    public function getDeadById(
+        string $id
+    ) {
+        $params = [
+            'id' => $id,
+        ];
+        $select = $this->queries->getQuery(
+            'getDeadById'
+        );
+
+        $result = $this->db->selectOne(
+            $select,
+            $params
+        );
+        if (empty($result)) {
+            return null;
+        }
+        return $result;
+    }
+}

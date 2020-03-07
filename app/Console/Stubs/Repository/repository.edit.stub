@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Queries\{{entityCaps}}\{{entityCaps}}EditQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}EditRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}EditQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}EditQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * edit {{entity}}
+     * @param string $id
+     * @param array $data
+     * @return string $id
+     */
+    public function edit(
+        string $id,
+        array $data
+    ) {
+        $data['modified'] = date('Y-m-d H:i:s');
+        $this->db
+            ->table('{{entityOriginal}}')
+            ->where(['id'=> $id])
+            ->update($data);
+        
+        return $id;
+    }
+}

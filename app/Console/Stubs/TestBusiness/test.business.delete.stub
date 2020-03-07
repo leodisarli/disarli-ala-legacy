@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use \Mockery;
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DeleteBusiness;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DeleteRepository;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DeleteBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeleteBusiness::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        ${{entity}}RepositorySpy = Mockery::spy({{entityCaps}}DeleteRepository::class);
+        $business = new {{entityCaps}}DeleteBusiness(${{entity}}RepositorySpy);
+        $this->assertInstanceOf({{entityCaps}}DeleteBusiness::class, $business);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeleteBusiness::process
+     */
+    public function testProcess()
+    {
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+        $result = (object) [
+            'id' => $id,
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeleteRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->once()
+            ->with($id)
+            ->andReturn($result);
+
+        ${{entity}}RepositoryMock->shouldReceive('delete')
+            ->once()
+            ->with($id)
+            ->andReturn(true);
+
+        $business = new {{entityCaps}}DeleteBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeleteBusiness::class, $business);
+
+        $process = $business->process(
+            $id
+        );
+
+        $this->assertEquals(true, $process);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeleteBusiness::process
+     * @expectedException App\Exceptions\Custom\DataNotFoundException
+     */
+    public function testProcessNotFound()
+    {
+        $id = '70a49eb4-d746-4d17-8b46-5806af4ad36d';
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeleteRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getById')
+            ->once()
+            ->with($id)
+            ->andReturn(null);
+
+        $business = new {{entityCaps}}DeleteBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeleteBusiness::class, $business);
+
+        $process = $business->process(
+            $id
+        );
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

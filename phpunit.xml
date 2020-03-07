@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap/app.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+            <exclude>
+                <directory suffix=".php">./app/Console/Kernel.php</directory>
+                <directory suffix=".php">./app/Console</directory>
+                <directory suffix=".php">./app/Constants</directory>
+                <directory suffix=".php">./app/Docs/Concrete</directory>
+                <directory suffix=".php">./app/Events/Event.php</directory>
+                <directory suffix=".php">./app/Exceptions</directory>
+                <directory suffix=".php">./app/Http</directory>
+                <directory suffix=".php">./app/Interfaces</directory>
+                <directory suffix=".php">./app/Jobs</directory>
+                <directory suffix=".php">./app/Providers</directory>
+                <directory suffix=".php">./app/Queries</directory>
+                <directory suffix=".php">./app/Refiners/Base/CanTestRefine.php</directory>
+                <directory suffix=".php">./app/Refiners/Concrete</directory>
+                <directory suffix=".php">./app/Validators/Base/AbstractRequestValidator.php</directory>
+                <directory suffix=".php">./app/Validators/Concrete</directory>
+                <directory suffix=".php">./app/Validators/Validator.php</directory>
+                <directory prefix="Example">./app/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+    </php>
+    <logging>
+      <log type="coverage-html" target="./coverage/" lowUpperBound="35" highLowerBound="70"/>
+      <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70"/>
+      <log type="testdox-text" target="php://stdout" showUncoveredFiles="false"/>
+    </logging>
+</phpunit>

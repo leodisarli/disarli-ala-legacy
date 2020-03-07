@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use App\Helpers\PaginatorHelper;
+use App\Queries\{{entityCaps}}\{{entityCaps}}DeadListQueries;
+use Illuminate\Database\DatabaseManager;
+
+class {{entityCaps}}DeadListRepository extends {{entityCaps}}CommonRepository
+{
+    /**
+     * constructor
+     * @param DatabaseManager $db
+     * @param {{entityCaps}}DeadListQueries $queries
+     */
+    public function __construct(
+        DatabaseManager $db,
+        {{entityCaps}}DeadListQueries $queries
+    ) {
+        parent::__construct($db, $queries);
+        $this->db = $db;
+        $this->queries = $queries;
+    }
+
+    /**
+     * get {{entity}} dead list
+     * @param int $page
+     * @return array
+     */
+    public function getDeadList(
+        int $page
+    ) : array {
+        $select = $this->queries->getQuery(
+            'getDeadList'
+        );
+
+        $paginator = new PaginatorHelper();
+        $countSelect = $paginator->getCountSelect($select, '{{entityOriginal}}');
+        $total = $this->db->select(
+            $countSelect
+        );
+        $totalRows = $total[0]->total ?? 0;
+        $paginatorArray = $paginator->makePaginator(
+            $page,
+            $totalRows
+        );
+
+        $query = $paginator->paginateSelect(
+            $select,
+            $page
+        );
+
+        $result = $this->db->select(
+            $query
+        );
+
+        if (empty($result)) {
+            $result = null;
+        }
+
+        return [
+            'data' => $result,
+            'paginator' => $paginatorArray,
+        ];
+    }
+}

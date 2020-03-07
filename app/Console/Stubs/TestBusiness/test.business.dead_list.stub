@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Businesses\{{entityCaps}};
+
+use \Mockery;
+use App\Businesses\{{entityCaps}}\{{entityCaps}}DeadListBusiness;
+use App\Repositories\{{entityCaps}}\{{entityCaps}}DeadListRepository;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DeadListBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadListBusiness::__construct
+     */
+    public function testCanBeInstanciated()
+    {
+        ${{entity}}RepositorySpy = Mockery::spy({{entityCaps}}DeadListRepository::class);
+        $business = new {{entityCaps}}DeadListBusiness(${{entity}}RepositorySpy);
+        $this->assertInstanceOf({{entityCaps}}DeadListBusiness::class, $business);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadListBusiness::process
+     */
+    public function testProcess()
+    {
+        $page = 1;
+        $return = [
+            'data' => [
+                (object) [
+                    'id' => '70a49eb4-d746-4d17-8b46-5806af4ad36d',
+                    'field' => 1,
+                ],
+                (object) [
+                    'id' => '9cfa3bde-4109-4364-b5a2-5804d3864561',
+                    'field' => 2,
+                ],
+            ],
+            'paginator' => [
+                'page' => 1,
+                'size' => 25,
+                'totalPages' => 1,
+                'totalRows'=> 2,
+            ],
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeadListRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getDeadList')
+            ->once()
+            ->with($page)
+            ->andReturn($return);
+
+        $business = new {{entityCaps}}DeadListBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeadListBusiness::class, $business);
+
+        $process = $business->process(
+            $page
+        );
+
+        $this->assertEquals($process, $return);
+    }
+
+    /**
+     * @covers \App\Businesses\{{entityCaps}}\{{entityCaps}}DeadListBusiness::process
+     * @expectsException \App\Exceptions\Custom\DataNotFoundException;
+     */
+    public function testProcessNotFound()
+    {
+        $page = 1;
+
+        $return = [
+            'data' => [],
+            'paginator' => [
+                'page' => 1,
+                'size' => 25,
+                'totalPages' => 1,
+                'totalRows'=> 0,
+            ],
+        ];
+
+        ${{entity}}RepositoryMock = Mockery::mock({{entityCaps}}DeadListRepository::class);
+
+        ${{entity}}RepositoryMock->shouldReceive('getDeadList')
+            ->once()
+            ->with($page)
+            ->andReturn($return);
+
+        $business = new {{entityCaps}}DeadListBusiness(${{entity}}RepositoryMock);
+        $this->assertInstanceOf({{entityCaps}}DeadListBusiness::class, $business);
+
+        $process = $business->process(
+            $page
+        );
+
+        $this->assertEquals($process, $return);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

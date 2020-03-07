@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Repositories\{{entityCaps}};
+
+use \Mockery;
+use App\Queries\{{entityCaps}}\{{entityCaps}}DetailQueries;
+use Illuminate\Database\DatabaseManager;
+use PHPUnit\Framework\TestCase;
+
+class {{entityCaps}}DetailRepositoryTest extends TestCase
+{
+    /**
+     * @covers \App\Repositories\{{entityCaps}}\{{entityCaps}}DetailRepository::__construct
+     */
+    public function testCanBeInstantiated()
+    {
+        $dbSpy = Mockery::spy(DatabaseManager::class);
+        $queriesSpy = Mockery::spy({{entityCaps}}DetailQueries::class);
+        $repository = new {{entityCaps}}DetailRepository($dbSpy, $queriesSpy);
+        $this->assertInstanceOf({{entityCaps}}DetailRepository::class, $repository);
+    }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
+}

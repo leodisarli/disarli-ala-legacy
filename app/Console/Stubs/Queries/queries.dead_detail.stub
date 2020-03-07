@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Queries\{{entityCaps}};
+
+class {{entityCaps}}DeadDetailQueries extends {{entityCaps}}CommonQueries
+{
+    private $getDeadById =
+        "SELECT
+            [id],
+            [created],
+            [modified],
+            [deleted]
+        FROM [{{entityOriginal}}]
+        WHERE
+            [id] = :id
+            AND [deleted] IS NOT NULL";
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->queries['getDeadById'] = $this->getDeadById;           
+    }
+}
